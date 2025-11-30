@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisah Cinta Amelia & Wili</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --pink: #FFD1DC;
+            --mint: #C9E9E6;
+            --lavender: #E6E6FA;
+            --cream: #FFF8E7;
+            --text: #5D5D5D;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--cream);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+        
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--pink);
+            border-top: 5px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--pink), var(--lavender));
+            padding: 2rem;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hearts-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .heart {
+            position: absolute;
+            color: rgba(255,255,255,0.7);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 1.5rem;
+        }
+        
+        .chibi-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        
+        .chibi {
+            width: 120px;
+            height: 120px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .chibi i {
+            font-size: 3rem;
+            color: var(--pink);
+        }
+        
+        nav {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 50px;
+            margin: 1rem auto;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        nav a:hover, nav a.active {
+            background-color: var(--pink);
+            color: white;
+        }
+        
+        section {
+            padding: 3rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text);
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--pink), var(--lavender));
+            margin: 0.5rem auto;
+            border-radius: 2px;
+        }
+        
+        /* Galeri Foto */
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .photo-frame {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        
+        .photo-frame:hover {
+            transform: translateY(-10px);
+        }
+        
+        .photo-frame img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .photo-frame:hover img {
+            transform: scale(1.05);
+        }
+        
+        .photo-caption {
+            padding: 1rem;
+            text-align: center;
+            background-color: white;
+        }
+        
+        .photo-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+        }
+        
+        .photo-btn {
+            background-color: rgba(255,255,255,0.8);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .photo-btn:hover {
+            background-color: white;
+            transform: scale(1.1);
+        }
+        
+        /* Upload Area */
+        .upload-area {
+            background: linear-gradient(135deg, var(--mint), var(--lavender));
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px dashed rgba(255,255,255,0.5);
+        }
+        
+        .upload-area:hover {
+            transform: translateY(-5px);
+            border-color: white;
+        }
+        
+        .upload-area i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        
+        .upload-area p {
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .upload-btn {
+            background-color: white;
+            color: var(--pink);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-btn:hover {
+            background-color: var(--pink);
+            color: white;
+        }
+        
+        /* Playlist Musik */
+        .music-player {
+            background: linear-gradient(135deg, var(--mint), var(--lavender));
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .album-cover {
+            width: 200px;
+            height: 200px;
+            background-color: white;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .album-cover i {
+            font-size: 4rem;
+            color: var(--pink);
+        }
+        
+        .song-info {
+            margin-bottom: 1.5rem;
+        }
+        
+        .song-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .song-artist {
+            color: var(--text);
+            opacity: 0.8;
+        }
+        
+        .player-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .control-btn {
+            background-color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .control-btn:hover {
+            background-color: var(--pink);
+            color: white;
+        }
+        
+        .play-btn {
+            width: 60px;
+            height: 60px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: rgba(255,255,255,0.3);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: white;
+            width: 30%;
+            border-radius: 3px;
+        }
+        
+        .playlist {
+            margin-top: 2rem;
+            text-align: left;
+        }
+        
+        .playlist-item {
+            padding: 0.8rem 1rem;
+            background-color: rgba(255,255,255,0.5);
+            margin-bottom: 0.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .playlist-item:hover {
+            background-color: white;
+        }
+        
+        .playlist-item.active {
+            background-color: white;
+            font-weight: bold;
+        }
+        
+        .delete-song {
+            background: none;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+        
+        .delete-song:hover {
+            opacity: 1;
+            color: #ff4d4d;
+        }
+        
+        /* Wish List */
+        .wishlist-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .wish-category {
+            margin-bottom: 2rem;
+        }
+        
+        .wish-category h3 {
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--mint);
+        }
+        
+        .wish-item {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .wish-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .wish-checkbox {
+            margin-right: 1rem;
+        }
+        
+        .wish-checkbox input {
+            display: none;
+        }
+        
+        .wish-checkbox label {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--pink);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .wish-checkbox input:checked + label {
+            background-color: var(--pink);
+        }
+        
+        .wish-checkbox input:checked + label:after {
+            content: '✓';
+            color: white;
+            font-weight: bold;
+        }
+        
+        .wish-details {
+            flex-grow: 1;
+        }
+        
+        .wish-title {
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+        
+        .wish-desc {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .wish-item.checked .wish-title {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        
+        .wish-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .wish-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+        
+        .wish-btn:hover {
+            opacity: 1;
+        }
+        
+        .delete-wish:hover {
+            color: #ff4d4d;
+        }
+        
+        .add-wish {
+            background: linear-gradient(135deg, var(--mint), var(--lavender));
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .add-wish h3 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: white;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            background-color: rgba(255,255,255,0.9);
+        }
+        
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background-color: white;
+            color: var(--pink);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--mint);
+            color: white;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, var(--pink), var(--lavender));
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            margin-top: 3rem;
+            border-radius: 30px 30px 0 0;
+        }
+        
+        .footer-heart {
+            color: white;
+            margin: 0 0.3rem;
+            animation: heartbeat 1.5s ease infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        /* Responsif */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .chibi-container {
+                gap: 1rem;
+            }
+            
+            .chibi {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .chibi i {
+                font-size: 2rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .gallery-container {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+        
+        /* Hidden file inputs */
+        #photoUpload, #musicUpload {
+            display: none;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--pink);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+        
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Memuat data...</p>
+    </div>
+    
+    <div class="notification" id="notification"></div>
+    
+    <header>
+        <div class="hearts-container" id="heartsContainer"></div>
+        <h1>Amelia & Wili</h1>
+        <p class="subtitle">Merayakan Kisah Cinta Kami</p>
+        <div class="chibi-container">
+            <div class="chibi">
+                <i class="fas fa-female"></i>
+            </div>
+            <div class="chibi">
+                <i class="fas fa-male"></i>
+            </div>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#gallery" class="active">Galeri Foto</a></li>
+            <li><a href="#music">Playlist Musik</a></li>
+            <li><a href="#wishlist">Wish List</a></li>
+        </ul>
+    </nav>
+    
+    <section id="gallery">
+        <h2 class="section-title">Galeri Foto Kami</h2>
+        <div class="gallery-container" id="photoGallery">
+            <!-- Foto akan ditambahkan di sini secara dinamis -->
+        </div>
+        
+        <div class="upload-area" id="photoUploadArea">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>Klik atau seret foto ke sini untuk mengunggah</p>
+            <button class="upload-btn">Pilih Foto</button>
+            <input type="file" id="photoUpload" accept="image/*" multiple>
+        </div>
+    </section>
+    
+    <section id="music">
+        <h2 class="section-title">Playlist Musik Kenangan</h2>
+        <div class="music-player">
+            <div class="album-cover">
+                <i class="fas fa-music"></i>
+            </div>
+            <div class="song-info">
+                <div class="song-title" id="currentSongTitle">Pilih lagu dari playlist</div>
+                <div class="song-artist" id="currentSongArtist">-</div>
+            </div>
+            <div class="player-controls">
+                <button class="control-btn" id="prevBtn"><i class="fas fa-step-backward"></i></button>
+                <button class="control-btn play-btn" id="playBtn"><i class="fas fa-play"></i></button>
+                <button class="control-btn" id="nextBtn"><i class="fas fa-step-forward"></i></button>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" id="progressBar"></div>
+            </div>
+            <div class="playlist" id="playlist">
+                <!-- Lagu akan ditambahkan di sini secara dinamis -->
+            </div>
+            
+            <div class="upload-area" id="musicUploadArea" style="margin-top: 2rem;">
+                <i class="fas fa-file-audio"></i>
+                <p>Unggah lagu kenangan Anda</p>
+                <button class="upload-btn">Pilih Lagu</button>
+                <input type="file" id="musicUpload" accept="audio/*" multiple>
+            </div>
+        </div>
+    </section>
+    
+    <section id="wishlist">
+        <h2 class="section-title">Daftar Keinginan Kami</h2>
+        <div class="wishlist-container" id="wishlistContainer">
+            <!-- Wish list akan ditambahkan di sini secara dinamis -->
+        </div>
+        
+        <div class="add-wish">
+            <h3>Tambah Keinginan Baru</h3>
+            <div class="form-group">
+                <input type="text" id="wishTitle" placeholder="Judul keinginan">
+            </div>
+            <div class="form-group">
+                <input type="text" id="wishCategory" placeholder="Kategori (liburan, barang, dll)">
+            </div>
+            <div class="form-group">
+                <textarea id="wishDesc" placeholder="Deskripsi keinginan"></textarea>
+            </div>
+            <button class="submit-btn" id="addWishBtn">Tambah ke Daftar</button>
+        </div>
+    </section>
+    
+    <footer>
+        <p>Dibuat dengan <span class="footer-heart">❤️</span> untuk Amelia & Wili</p>
+        <p>Semoga cinta kalian abadi selamanya</p>
+    </footer>
+    
+    <script>
+        // Konfigurasi JSONBIN.io
+        const BIN_ID = '67c0b3aee41a4873b6e8b2e8'; // Ganti dengan ID bin Anda
+        const API_KEY = '$2a$10$T7JZQJZQJZQJZQJZQJZQJZQJZQJZQJZQJZQJZQJZQJZQJZQJZQJZQ'; // Ganti dengan API key Anda
+        const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+        
+        // Data awal
+        let photos = [];
+        let songs = [];
+        let currentSongIndex = 0;
+        let isPlaying = false;
+        let audioPlayer = new Audio();
+        
+        let wishlist = [
+            { id: 1, title: "Bali, Indonesia", category: "Destinasi Liburan", description: "Menikmati sunset romantis di pantai Kuta", checked: false },
+            { id: 2, title: "Paris, Prancis", category: "Destinasi Liburan", description: "Melihat Menara Eiffel dan berjalan di tepi Sungai Seine", checked: false },
+            { id: 3, title: "Kamera Mirrorless", category: "Barang Impian", description: "Untuk mengabadikan momen-momen indah kita", checked: false },
+            { id: 4, title: "Kelas Memasak Bersama", category: "Pengalaman Bersama", description: "Belajar memasak hidangan favorit berdua", checked: false }
+        ];
+        
+        // Fungsi untuk menampilkan notifikasi
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = 'notification show';
+            
+            setTimeout(() => {
+                notification.className = 'notification';
+            }, 3000);
+        }
+        
+        // Fungsi untuk mengambil data dari JSONBIN
+        async function fetchData() {
+            try {
+                const response = await fetch(API_URL + '/latest', {
+                    method: 'GET',
+                    headers: {
+                        'X-Master-Key': API_KEY,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Gagal mengambil data');
+                }
+                
+                const data = await response.json();
+                return data.record;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                showNotification('Gagal memuat data, menggunakan data lokal', 'error');
+                return null;
+            }
+        }
+        
+        // Fungsi untuk menyimpan data ke JSONBIN
+        async function saveData() {
+            const dataToSave = {
+                photos,
+                songs,
+                wishlist
+            };
+            
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'PUT',
+                    headers: {
+                        'X-Master-Key': API_KEY,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dataToSave)
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Gagal menyimpan data');
+                }
+                
+                showNotification('Data berhasil disimpan!', 'success');
+                return true;
+            } catch (error) {
+                console.error('Error saving data:', error);
+                showNotification('Gagal menyimpan data ke server', 'error');
+                // Simpan ke localStorage sebagai fallback
+                saveToLocalStorage();
+                return false;
+            }
+        }
+        
+        // Animasi hati jatuh
+        function createHearts() {
+            const heartsContainer = document.getElementById('heartsContainer');
+            const heartCount = 15;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                heartsContainer.appendChild(heart);
+            }
+        }
+        
+        // Navigasi smooth scroll
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 20,
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Fungsi Galeri Foto
+        function renderGallery() {
+            const galleryContainer = document.getElementById('photoGallery');
+            galleryContainer.innerHTML = '';
+            
+            if (photos.length === 0) {
+                galleryContainer.innerHTML = '<p style="text-align:center; grid-column:1/-1;">Belum ada foto. Unggah foto pertama Anda!</p>';
+                return;
+            }
+            
+            photos.forEach((photo, index) => {
+                const photoFrame = document.createElement('div');
+                photoFrame.classList.add('photo-frame');
+                
+                photoFrame.innerHTML = `
+                    <div class="photo-actions">
+                        <button class="photo-btn delete-photo" data-index="${index}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <img src="${photo.url}" alt="Foto ${index + 1}">
+                    <div class="photo-caption">${photo.caption || `Foto ${index + 1}`}</div>
+                `;
+                
+                galleryContainer.appendChild(photoFrame);
+            });
+            
+            // Tambahkan event listener untuk tombol hapus
+            document.querySelectorAll('.delete-photo').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const index = parseInt(this.getAttribute('data-index'));
+                    deletePhoto(index);
+                });
+            });
+        }
+        
+        function deletePhoto(index) {
+            if (confirm('Apakah Anda yakin ingin menghapus foto ini?')) {
+                photos.splice(index, 1);
+                renderGallery();
+                saveData();
+            }
+        }
+        
+        // Fungsi Playlist Musik
+        function renderPlaylist() {
+            const playlistContainer = document.getElementById('playlist');
+            playlistContainer.innerHTML = '';
+            
+            if (songs.length === 0) {
+                playlistContainer.innerHTML = '<p style="text-align:center;">Belum ada lagu. Unggah lagu pertama Anda!</p>';
+                return;
+            }
+            
+            songs.forEach((song, index) => {
+                const playlistItem = document.createElement('div');
+                playlistItem.classList.add('playlist-item');
+                if (index === currentSongIndex) {
+                    playlistItem.classList.add('active');
+                }
+                
+                playlistItem.innerHTML = `
+                    <div>
+                        <div>${song.title}</div>
+                        <div class="song-artist">${song.artist}</div>
+                    </div>
+                    <button class="delete-song" data-index="${index}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                `;
+                
+                playlistItem.addEventListener('click', function(e) {
+                    if (!e.target.classList.contains('delete-song')) {
+                        playSong(index);
+                    }
+                });
+                
+                playlistContainer.appendChild(playlistItem);
+            });
+            
+            // Tambahkan event listener untuk tombol hapus lagu
+            document.querySelectorAll('.delete-song').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const index = parseInt(this.getAttribute('data-index'));
+                    deleteSong(index);
+                });
+            });
+        }
+        
+        function deleteSong(index) {
+            if (confirm('Apakah Anda yakin ingin menghapus lagu ini?')) {
+                songs.splice(index, 1);
+                
+                if (currentSongIndex >= index && currentSongIndex > 0) {
+                    currentSongIndex--;
+                }
+                
+                if (songs.length === 0) {
+                    stopPlayback();
+                } else if (currentSongIndex < songs.length) {
+                    playSong(currentSongIndex);
+                } else {
+                    currentSongIndex = 0;
+                    playSong(currentSongIndex);
+                }
+                
+                renderPlaylist();
+                saveData();
+            }
+        }
+        
+        function playSong(index) {
+            if (songs.length === 0) return;
+            
+            currentSongIndex = index;
+            const song = songs[currentSongIndex];
+            
+            audioPlayer.src = song.url;
+            audioPlayer.play();
+            isPlaying = true;
+            
+            document.getElementById('currentSongTitle').textContent = song.title;
+            document.getElementById('currentSongArtist').textContent = song.artist;
+            document.getElementById('playBtn').innerHTML = '<i class="fas fa-pause"></i>';
+            
+            renderPlaylist();
+        }
+        
+        function stopPlayback() {
+            audioPlayer.pause();
+            isPlaying = false;
+            document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i>';
+            document.getElementById('currentSongTitle').textContent = 'Pilih lagu dari playlist';
+            document.getElementById('currentSongArtist').textContent = '-';
+        }
+        
+        // Fungsi Wish List
+        function renderWishlist() {
+            const wishlistContainer = document.getElementById('wishlistContainer');
+            wishlistContainer.innerHTML = '';
+            
+            // Kelompokkan wish berdasarkan kategori
+            const categories = {};
+            wishlist.forEach(wish => {
+                if (!categories[wish.category]) {
+                    categories[wish.category] = [];
+                }
+                categories[wish.category].push(wish);
+            });
+            
+            // Render setiap kategori
+            for (const category in categories) {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.classList.add('wish-category');
+                
+                let categoryHTML = `<h3>${category}</h3>`;
+                
+                categories[category].forEach(wish => {
+                    const checkedClass = wish.checked ? 'checked' : '';
+                    
+                    categoryHTML += `
+                        <div class="wish-item ${checkedClass}" data-id="${wish.id}">
+                            <div class="wish-checkbox">
+                                <input type="checkbox" id="wish-${wish.id}" ${wish.checked ? 'checked' : ''}>
+                                <label for="wish-${wish.id}"></label>
+                            </div>
+                            <div class="wish-details">
+                                <div class="wish-title">${wish.title}</div>
+                                <div class="wish-desc">${wish.description}</div>
+                            </div>
+                            <div class="wish-actions">
+                                <button class="wish-btn delete-wish" data-id="${wish.id}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                categoryDiv.innerHTML = categoryHTML;
+                wishlistContainer.appendChild(categoryDiv);
+            }
+            
+            // Tambahkan event listener untuk checkbox
+            document.querySelectorAll('.wish-checkbox input').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const wishId = parseInt(this.closest('.wish-item').getAttribute('data-id'));
+                    toggleWishStatus(wishId);
+                });
+            });
+            
+            // Tambahkan event listener untuk tombol hapus
+            document.querySelectorAll('.delete-wish').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const wishId = parseInt(this.getAttribute('data-id'));
+                    deleteWish(wishId);
+                });
+            });
+        }
+        
+        function toggleWishStatus(wishId) {
+            const wish = wishlist.find(w => w.id === wishId);
+            if (wish) {
+                wish.checked = !wish.checked;
+                renderWishlist();
+                saveData();
+            }
+        }
+        
+        function deleteWish(wishId) {
+            if (confirm('Apakah Anda yakin ingin menghapus wish ini?')) {
+                wishlist = wishlist.filter(w => w.id !== wishId);
+                renderWishlist();
+                saveData();
+            }
+        }
+        
+        function addWish(title, category, description) {
+            const newId = wishlist.length > 0 ? Math.max(...wishlist.map(w => w.id)) + 1 : 1;
+            wishlist.push({
+                id: newId,
+                title,
+                category,
+                description,
+                checked: false
+            });
+            renderWishlist();
+            saveData();
+        }
+        
+        // Upload Foto
+        document.getElementById('photoUploadArea').addEventListener('click', function() {
+            document.getElementById('photoUpload').click();
+        });
+        
+        document.getElementById('photoUpload').addEventListener('change', function(e) {
+            const files = e.target.files;
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+                
+                reader.onload = function(event) {
+                    photos.push({
+                        url: event.target.result,
+                        caption: `Foto ${photos.length + 1}`,
+                        file: file
+                    });
+                    
+                    renderGallery();
+                    saveData();
+                };
+                
+                reader.readAsDataURL(file);
+            }
+            
+            // Reset input file
+            e.target.value = '';
+        });
+        
+        // Upload Musik
+        document.getElementById('musicUploadArea').addEventListener('click', function() {
+            document.getElementById('musicUpload').click();
+        });
+        
+        document.getElementById('musicUpload').addEventListener('change', function(e) {
+            const files = e.target.files;
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+                
+                reader.onload = function(event) {
+                    // Ekstrak nama file tanpa ekstensi untuk judul
+                    const fileName = file.name.replace(/\.[^/.]+$/, "");
+                    
+                    songs.push({
+                        url: event.target.result,
+                        title: fileName,
+                        artist: "Artis",
+                        file: file
+                    });
+                    
+                    renderPlaylist();
+                    saveData();
+                    
+                    // Jika ini lagu pertama, langsung putar
+                    if (songs.length === 1) {
+                        playSong(0);
+                    }
+                };
+                
+                reader.readAsDataURL(file);
+            }
+            
+            // Reset input file
+            e.target.value = '';
+        });
+        
+        // Kontrol pemutar musik
+        document.getElementById('playBtn').addEventListener('click', function() {
+            if (songs.length === 0) return;
+            
+            if (isPlaying) {
+                audioPlayer.pause();
+                isPlaying = false;
+                this.innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                if (audioPlayer.src) {
+                    audioPlayer.play();
+                } else {
+                    playSong(currentSongIndex);
+                }
+                isPlaying = true;
+                this.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+        });
+        
+        document.getElementById('prevBtn').addEventListener('click', function() {
+            if (songs.length === 0) return;
+            
+            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+            playSong(currentSongIndex);
+        });
+        
+        document.getElementById('nextBtn').addEventListener('click', function() {
+            if (songs.length === 0) return;
+            
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            playSong(currentSongIndex);
+        });
+        
+        // Tambah wish baru
+        document.getElementById('addWishBtn').addEventListener('click', function() {
+            const title = document.getElementById('wishTitle').value.trim();
+            const category = document.getElementById('wishCategory').value.trim();
+            const description = document.getElementById('wishDesc').value.trim();
+            
+            if (title && category && description) {
+                addWish(title, category, description);
+                
+                // Reset form
+                document.getElementById('wishTitle').value = '';
+                document.getElementById('wishCategory').value = '';
+                document.getElementById('wishDesc').value = '';
+            } else {
+                alert('Harap isi semua field!');
+            }
+        });
+        
+        // Simpan dan muat data dari localStorage (fallback)
+        function saveToLocalStorage() {
+            localStorage.setItem('ameliaWiliPhotos', JSON.stringify(photos));
+            localStorage.setItem('ameliaWiliSongs', JSON.stringify(songs));
+            localStorage.setItem('ameliaWiliWishlist', JSON.stringify(wishlist));
+        }
+        
+        function loadFromLocalStorage() {
+            const savedPhotos = localStorage.getItem('ameliaWiliPhotos');
+            const savedSongs = localStorage.getItem('ameliaWiliSongs');
+            const savedWishlist = localStorage.getItem('ameliaWiliWishlist');
+            
+            if (savedPhotos) photos = JSON.parse(savedPhotos);
+            if (savedSongs) songs = JSON.parse(savedSongs);
+            if (savedWishlist) wishlist = JSON.parse(savedWishlist);
+        }
+        
+        // Inisialisasi
+        window.addEventListener('DOMContentLoaded', async function() {
+            createHearts();
+            
+            // Coba ambil data dari JSONBIN
+            const remoteData = await fetchData();
+            
+            if (remoteData) {
+                // Gunakan data dari server
+                photos = remoteData.photos || [];
+                songs = remoteData.songs || [];
+                wishlist = remoteData.wishlist || wishlist;
+            } else {
+                // Fallback ke localStorage
+                loadFromLocalStorage();
+            }
+            
+            renderGallery();
+            renderPlaylist();
+            renderWishlist();
+            
+            // Sembunyikan loading
+            document.getElementById('loading').style.display = 'none';
+            
+            // Event listener untuk drag & drop foto
+            const photoUploadArea = document.getElementById('photoUploadArea');
+            
+            photoUploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.backgroundColor = 'rgba(255,255,255,0.2)';
+            });
+            
+            photoUploadArea.addEventListener('dragleave', function() {
+                this.style.backgroundColor = '';
+            });
+            
+            photoUploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.backgroundColor = '';
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    document.getElementById('photoUpload').files = files;
+                    const event = new Event('change');
+                    document.getElementById('photoUpload').dispatchEvent(event);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
